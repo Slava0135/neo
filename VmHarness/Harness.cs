@@ -11,6 +11,16 @@ enum ExitCode : int
     VmFailedCode = 4,
 }
 
+class HarnessExecutionEngine : ExecutionEngine
+{
+    protected override void OnFault(Exception ex)
+    {
+        State = VMState.FAULT;
+        Console.Error.WriteLine("error when running script: " + ex.Message);
+        Environment.Exit((int)ExitCode.RunErrorCode);
+    }
+}
+
 class Harness
 {
     public static void Run(string[] args)
@@ -20,7 +30,7 @@ class Harness
             Console.Error.WriteLine("expected string (base64) as argument");
             Environment.Exit((int)ExitCode.WrongArgCode);
         }
-        byte[] script;
+        byte[] script = default!;
         try
         {
             script = Convert.FromBase64String(args.First());
@@ -29,6 +39,25 @@ class Harness
         {
             Console.Error.WriteLine("error when decoding string (base64): " + ex.Message);
             Environment.Exit((int)ExitCode.WrongStrCode);
+        }
+        using HarnessExecutionEngine engine = new();
+        engine.LoadScript(script);
+        engine.Execute();
+        switch (engine.State)
+        {
+            case VMState.FAULT:
+                {
+                    Console.WriteLine("result: VM failed");
+                    Environment.Exit((int)ExitCode.VmFailedCode);
+                    break;
+                }
+            case VMState.HALT:
+                {
+                    Console.WriteLine("result: VM halted");
+                    Console.WriteLine(engine.ResultStack);
+                    Environment.Exit((int)ExitCode.VmHaltedCode);
+                    break;
+                }
         }
     }
 }
