@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -81,6 +81,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neo.Plugins.ApplicationLogs.Tests", "tests\Neo.Plugins.ApplicationLogs.Tests\Neo.Plugins.ApplicationLogs.Tests.csproj", "{8C866DC8-2E55-4399-9563-2F47FD4602EC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neo.Extensions.Tests", "tests\Neo.Extensions.Tests\Neo.Extensions.Tests.csproj", "{77FDEE2E-9381-4BFC-B9E6-741EDBD6B90F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VmHarness", "VmHarness\VmHarness.csproj", "{E4FC3A42-2377-4BBE-A881-2568FA7A19BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -228,6 +230,10 @@ Global
 		{77FDEE2E-9381-4BFC-B9E6-741EDBD6B90F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77FDEE2E-9381-4BFC-B9E6-741EDBD6B90F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77FDEE2E-9381-4BFC-B9E6-741EDBD6B90F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4FC3A42-2377-4BBE-A881-2568FA7A19BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4FC3A42-2377-4BBE-A881-2568FA7A19BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4FC3A42-2377-4BBE-A881-2568FA7A19BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4FC3A42-2377-4BBE-A881-2568FA7A19BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
