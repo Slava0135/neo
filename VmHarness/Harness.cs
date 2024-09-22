@@ -4,33 +4,25 @@ using Neo.Json;
 
 namespace Neo.VM.Harness;
 
-enum ExitCode : int
-{
-    VmHaltedCode = 0,
-    WrongArgCode = 1,
-    WrongStrCode = 2,
-    RunErrorCode = 3,
-    VmFailedCode = 4,
-}
+readonly record struct Result(string status, string errmsg, string estack);
 
 class HarnessExecutionEngine : ExecutionEngine
 {
+    public Exception ex;
     protected override void OnFault(Exception ex)
     {
-        State = VMState.FAULT;
-        Console.Error.WriteLine("error when running script: " + ex.Message);
-        Environment.Exit((int)ExitCode.RunErrorCode);
+        this.ex = ex;
+        base.OnFault(ex);
     }
 }
 
 class Harness
 {
-    public static void Run(string[] args)
+    public static Result Run(string[] args)
     {
         if (args.Length != 1)
         {
-            Console.Error.WriteLine("expected string (base64) as argument");
-            Environment.Exit((int)ExitCode.WrongArgCode);
+            return new Result(status: "argument error", errmsg: "invalid number of arguments", estack: "[]");
         }
         byte[] script = default!;
         try
@@ -39,8 +31,7 @@ class Harness
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine("error when decoding string (base64): " + ex.Message);
-            Environment.Exit((int)ExitCode.WrongStrCode);
+            return new Result(status: "decoding error", errmsg: "invalid base64 string: " + ex.Message, estack: "[]");
         }
         using HarnessExecutionEngine engine = new();
         engine.LoadScript(script);
@@ -48,18 +39,10 @@ class Harness
         switch (engine.State)
         {
             case VMState.FAULT:
-                {
-                    Console.WriteLine("result: VM failed");
-                    Environment.Exit((int)ExitCode.VmFailedCode);
-                    break;
-                }
+                return new Result(status: "VM error", errmsg: "invalid base64 string: " + engine.ex.Message, estack: "[]");
             case VMState.HALT:
-                {
-                    Console.WriteLine("result: VM halted");
-                    Console.WriteLine(new JArray(engine.ResultStack.Select(p => p.ToJson())).ToString());
-                    Environment.Exit((int)ExitCode.VmHaltedCode);
-                    break;
-                }
+                return new Result(status: "VM halted", errmsg: "", estack: new JArray(engine.ResultStack.Select(p => p.ToJson())).ToString());
         }
+        throw new Exception("unknown state");
     }
 }
