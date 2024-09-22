@@ -39,7 +39,7 @@ class Harness
         switch (engine.State)
         {
             case VMState.FAULT:
-                return new Result(status: "VM error", errmsg: "invalid base64 string: " + engine.ex.Message, estack: "[]");
+                return new Result(status: "VM error", errmsg: engine.ex.Message, estack: "[]");
             case VMState.HALT:
                 return new Result(status: "VM halted", errmsg: "", estack: new JArray(engine.ResultStack.Select(p => p.ToJson())).ToString());
         }
