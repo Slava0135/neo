@@ -4,7 +4,7 @@ using Neo.VM.Harness;
 using System.Text.Json;
 
 var res = Harness.Run(args);
-var msg = $"{{\"status\":\"{res.status}\",\"errmsg\":\"{res.errmsg}\",\"estack\":{res.estack}}}";
+var msg = $"{{\"status\":\"{res.status}\",\"errmsg\":\"{res.errmsg}\",\"lastop\":{res.lastop},\"estack\":{res.estack}}}";
 var options = new JsonSerializerOptions(){
     WriteIndented = true
 };
