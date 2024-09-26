@@ -32,14 +32,22 @@ class Harness
         {
             return new Result(status: "argument error", errmsg: "invalid number of arguments", lastop: lastop, estack: "[]");
         }
-        byte[] script = default!;
+        byte[] bytes = default!;
         try
         {
-            script = Convert.FromBase64String(args.First());
+            bytes = Convert.FromBase64String(args.First());
         }
         catch (Exception ex)
         {
             return new Result(status: "decoding error", errmsg: "invalid base64 string: " + ex.Message, lastop: lastop, estack: "[]");
+        }
+        Script script = default!;
+        try
+        {
+            script = new Script(bytes, true);
+        } catch (Exception ex)
+        {
+            return new Result(status: "VM error", errmsg: ex.Message, lastop: lastop, estack: "[]");
         }
         using HarnessExecutionEngine engine = new();
         engine.LoadScript(script);
