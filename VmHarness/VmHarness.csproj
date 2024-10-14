@@ -10,8 +10,8 @@
     <SelfContained>true</SelfContained>
     <PublishReadyToRun>true</PublishReadyToRun>
     <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
-    <PublishTrimmed>true</PublishTrimmed>
-    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <!-- <PublishTrimmed>true</PublishTrimmed> -->
+    <!-- <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault> -->
   </PropertyGroup>
 
   <ItemGroup>
